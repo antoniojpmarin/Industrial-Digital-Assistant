@@ -1,0 +1,337 @@
+{
+  "name": "Informes IA",
+  "nodes": [
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "llama3.2:latest",
+          "mode": "list",
+          "cachedResultName": "llama3.2:latest"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{$json[\"prompt\"]}}"
+            }
+          ]
+        },
+        "simplify": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.ollama",
+      "typeVersion": 1,
+      "position": [
+        1952,
+        224
+      ],
+      "id": "51d94f08-03e6-4d8d-9c59-b5a5ead9d761",
+      "name": "Message a model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "RJIWzBNM5VU6dYsE",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "informe_ollama",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        1280,
+        224
+      ],
+      "id": "c9f7d025-7124-4f39-9a5e-559afe723eb0",
+      "name": "Webhook informe Ollama",
+      "webhookId": "3e1e7742-f61b-4caf-9587-00c5cbf3cf5f"
+    },
+    {
+      "parameters": {
+        "jsCode": "const datos = $input.all().map(i => ({\n  nivel: parseFloat(i.json.nivel ?? '0'),\n  fecha: i.json.fecha ?? '',\n  estado: i.json.estado ?? 'OFF',\n  sp: i.json.sp !== null && i.json.sp !== undefined ? parseFloat(i.json.sp) : null,\n  alarma: i.json.alarma ?? false,\n  caudal_entrada: i.json.caudal_entrada ?? 0,\n  caudal_salida: i.json.caudal_salida ?? 0\n}));\n\nconst niveles = datos.map(d => d.nivel);\nconst nivelMin = parseFloat(Math.min(...niveles).toFixed(2));\nconst nivelMax = parseFloat(Math.max(...niveles).toFixed(2));\nconst nivelProm = parseFloat((niveles.reduce((a,b) => a+b, 0) / niveles.length).toFixed(2));\nconst alarmasAlto = datos.filter(d => d.alarma === 'nivel alto').length;\nconst alarmasBajo = datos.filter(d => d.alarma === 'nivel bajo').length;\nconst alarmasOn = alarmasAlto + alarmasBajo;\nconst spReferencia = datos.find(d => d.sp !== null)?.sp ?? null;\nconst spValido = spReferencia !== null;\n\nconst prompt = `Eres un ingeniero de procesos industriales. Redacta un informe técnico BREVE (máximo 8 líneas) en español sobre el comportamiento general del tanque durante los últimos 15 minutos.\n\nDATOS DEL TANQUE (${datos.length} registros):\n- Nivel mínimo: ${nivelMin}%\n- Nivel máximo: ${nivelMax}%\n- Nivel promedio: ${nivelProm}%\n- Setpoint: ${spValido ? spReferencia + \"%\" : \"Modo simulación (SP variable)\"}\n- Alarmas activas: ${alarmasOn} (nivel alto: ${alarmasAlto}, nivel bajo: ${alarmasBajo})\n- Rango seguro: 30% – 70%\n\nSecciones:\n1. Resumen del período\n2. Incidencias destacadas\n3. Recomendaciones\n\nSé conciso. No especules ni añadas información que no esté en los datos.`;\n\nreturn [{ json: { prompt } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1744,
+        224
+      ],
+      "id": "d5f0c33b-d1b3-492b-9f10-6d5d6085273f",
+      "name": "Prompt para Ollama"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://python-grafica:5000/grafica",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2032,
+        -32
+      ],
+      "id": "bec69d03-5c4c-42c6-a3f1-7ea2fe4b53ed",
+      "name": "HTTP Request Gráfica"
+    },
+    {
+      "parameters": {
+        "jsCode": "const allItems = $input.all();\nconst fechas = [];\nconst niveles = [];\n\nfor (const fila of allItems) {\n  fechas.push(fila.json.fecha);\n  niveles.push(fila.json.nivel);\n}\n\nconst chatId = allItems[0]?.json.chatId ?? null;\n\nreturn [\n  {\n    json: {\n      fechas,\n      niveles,\n      chatId\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1744,
+        -32
+      ],
+      "id": "d45e1fc8-8350-4d3b-8b43-79adf9599878",
+      "name": "Agrupar Datos para Python"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {},\n    binary: {\n      data: {\n        data: Buffer.from($json.imagen, 'base64'),\n        mimeType: 'image/png',\n        fileName: 'grafica.png'\n      }\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2256,
+        -32
+      ],
+      "id": "470fb8c6-b356-4d41-a8d5-aac5cb73895b",
+      "name": "Generar Imagen Binaria"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2528,
+        32
+      ],
+      "id": "a2fa69d2-3d13-4c82-86c2-f4fb8fff2ee6",
+      "name": "Unir Gráfica e Informe"
+    },
+    {
+      "parameters": {
+        "fromEmail": "antoniopmarin2000@gmail.com",
+        "toEmail": "antoniopmarin2000@gmail.com",
+        "subject": "Informe del Tanque",
+        "html": "={{ $json.message }}",
+        "options": {
+          "attachments": "data"
+        }
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        2752,
+        32
+      ],
+      "id": "73ed4fe3-a6f0-49f7-98bf-e549ee6a4b45",
+      "name": "Enviar email con Gráfica e Informe",
+      "webhookId": "f3bd0984-920b-4d82-996e-47ad28d7c089",
+      "credentials": {
+        "smtp": {
+          "id": "WydcwzFg9GHW8Vz6",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT nivel, fecha, estado, sp, alarma, caudal_entrada, caudal_salida\nFROM nivel_tanque\nWHERE fecha >= (NOW() AT TIME ZONE 'Europe/Madrid')::timestamp - INTERVAL '15 minutes'\nORDER BY fecha ASC;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1504,
+        224
+      ],
+      "id": "1763eb81-9a78-4bf0-8bd6-5cbc5da5e3d8",
+      "name": "Solictar Datos Tanque para Informe",
+      "credentials": {
+        "postgres": {
+          "id": "ZRHXle1i0XLhwjQg",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let msg = $json[\"message\"][\"content\"];\n\n// Convertir markdown básico a HTML\nmsg = msg\n  .replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>')  // negrita\n  .replace(/\\*(.*?)\\*/g, '<em>$1</em>')               // cursiva\n  .replace(/\\n/g, '<br>');                            // saltos de línea\n\nreturn {\n  json: {\n    message: msg\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2256,
+        224
+      ],
+      "id": "ec86b73a-54ec-4830-9d2e-5651d0f59e15",
+      "name": "Formatear Mensaje para correo"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 30
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        1280,
+        48
+      ],
+      "id": "8cc64681-fe3d-4294-93ee-e31b207e5f4d",
+      "name": "Trigger cada 30 min"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Formatear Mensaje para correo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook informe Ollama": {
+      "main": [
+        [
+          {
+            "node": "Solictar Datos Tanque para Informe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prompt para Ollama": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request Gráfica": {
+      "main": [
+        [
+          {
+            "node": "Generar Imagen Binaria",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agrupar Datos para Python": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request Gráfica",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar Imagen Binaria": {
+      "main": [
+        [
+          {
+            "node": "Unir Gráfica e Informe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unir Gráfica e Informe": {
+      "main": [
+        [
+          {
+            "node": "Enviar email con Gráfica e Informe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Solictar Datos Tanque para Informe": {
+      "main": [
+        [
+          {
+            "node": "Prompt para Ollama",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Agrupar Datos para Python",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatear Mensaje para correo": {
+      "main": [
+        [
+          {
+            "node": "Unir Gráfica e Informe",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Trigger cada 30 min": {
+      "main": [
+        [
+          {
+            "node": "Solictar Datos Tanque para Informe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "df03c19e-1583-4e82-9a4a-a79c86fd5b59",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c17920ac936e0427b0e89fd8061fa3e3848ef57d40be1561afc3e18584fed2b6"
+  },
+  "id": "ulr7JyeNnBv-bTvO9Mt7F",
+  "tags": []
+}

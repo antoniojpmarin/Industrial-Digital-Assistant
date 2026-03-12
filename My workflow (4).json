@@ -1,0 +1,803 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "grafica",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        1360,
+        -32
+      ],
+      "id": "8baa87ba-ff50-4abf-b457-0b4ff42777aa",
+      "name": "Webhook solicitar grafica",
+      "webhookId": "31c49626-09a6-4eb3-8e8c-5f6cae248591"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT nivel, fecha\nFROM nivel_tanque\nWHERE fecha >= (NOW() AT TIME ZONE 'Europe/Madrid')::timestamp - ({{ $json.minutos }} || ' minutes')::interval\nORDER BY fecha ASC;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1872,
+        -32
+      ],
+      "id": "f32caa40-d4f6-468d-ac37-72462e898da8",
+      "name": "Pedir datos ultimos 15 min",
+      "credentials": {
+        "postgres": {
+          "id": "ZRHXle1i0XLhwjQg",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "6764792568",
+        "text": "=⚠️ ALERTA INMEDIATA ⚠️  \nTipo: {{$json.alarma}}  ",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2560,
+        -384
+      ],
+      "id": "9fb80b80-cfc9-442e-af62-ec44a063efa4",
+      "name": "Enviar Alerta",
+      "webhookId": "e4b5d284-60eb-4d26-83fa-f5448d14f00f",
+      "credentials": {
+        "telegramApi": {
+          "id": "g7plW0sDKCRtySM6",
+          "name": "Alertas Tanque"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "45576e43-d36e-42f0-8ab6-f04c3e34a142",
+              "leftValue": "={{$json.alarma}}",
+              "rightValue": "recuperada",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2336,
+        -400
+      ],
+      "id": "3a4fd9dc-faaf-4d57-b3f1-fc4b7c4709e6",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "datos",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        1360,
+        -208
+      ],
+      "id": "2b11183d-ae8d-4b65-83da-861e207ea08f",
+      "name": "Webhook receive Data",
+      "webhookId": "93813f1f-20b6-4ffe-b27f-3658f79bedbe"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "historial_alarmas",
+          "mode": "list",
+          "cachedResultName": "historial_alarmas"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "alarma": "={{ $json.alarma }}",
+            "fecha": "={{ $json.fecha }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "alarma",
+              "displayName": "alarma",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fecha",
+              "displayName": "fecha",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2096,
+        -400
+      ],
+      "id": "3b0279cc-7523-492d-9dd3-a498594cc5ec",
+      "name": "Insertar en Registro Alarmas",
+      "credentials": {
+        "postgres": {
+          "id": "ZRHXle1i0XLhwjQg",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const ultimaRegistrada = $input.first()?.json?.alarma || 'ninguna';\n\n// Los datos vienen del webhook de alarma, no del de datos\nconst alarmaEntrante = $('Webhook Receive Alarm').first().json.body.alarma;\nconst fecha = $('Webhook Receive Alarm').first().json.body.fecha;\n\n// Considerar \"recuperada\" y \"ninguna\" como el mismo estado (normal)\nconst estabaEnNormal = ultimaRegistrada === 'ninguna' || ultimaRegistrada === 'recuperada';\nconst entraEnNormal = alarmaEntrante === 'ninguna';\n\n// Si ambos son estado normal → no hacer nada\nif (estabaEnNormal && entraEnNormal) return [];\n\n// Si no ha cambiado la alarma activa → no hacer nada\nif (ultimaRegistrada === alarmaEntrante) return [];\n\n// Si vuelve a normal → recuperada\nif (entraEnNormal) {\n  return [{ json: { alarma: 'recuperada', fecha } }];\n}\n\n// Nueva alarma activa\nreturn [{ json: { alarma: alarmaEntrante, fecha } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1872,
+        -400
+      ],
+      "id": "ee07e249-5826-4b07-8499-ab4cc4679f79",
+      "name": "Gestionar Alarma"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT alarma FROM historial_alarmas ORDER BY fecha DESC LIMIT 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1632,
+        -400
+      ],
+      "id": "e3e73ad7-5071-4aa4-b96f-1a646fd1a0af",
+      "name": "Comprobar Última Alarma",
+      "credentials": {
+        "postgres": {
+          "id": "ZRHXle1i0XLhwjQg",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "alarma",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        1376,
+        -400
+      ],
+      "id": "786fbc5c-3855-4bdf-963e-05b67b08fea7",
+      "name": "Webhook Receive Alarm",
+      "webhookId": "93813f1f-20b6-4ffe-b27f-3658f79bedbe"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fallo_com",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        1376,
+        -576
+      ],
+      "id": "92a6f44e-0378-4ab7-a1bb-fb95e0ceda49",
+      "name": "Webhook Receive Fallo Comunicación",
+      "webhookId": "93813f1f-20b6-4ffe-b27f-3658f79bedbe"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body;\n\nconst fechaDB = new Date()\n  .toLocaleString(\"sv-SE\", { timeZone: \"Europe/Madrid\", hour12: false })\n  .replace(\" \", \"T\");\n\nreturn [{\n  json: {\n    fecha: fechaDB,\n    tipo: body.tipo || \"desconocido\",\n    descripcion: body.descripcion || \"\",\n    nivel_ultimo: body.nivel || 0\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        -576
+      ],
+      "id": "24426aaf-00cb-45b0-8710-0ff2d3eeffd0",
+      "name": "Formatear Info Fallo Com"
+    },
+    {
+      "parameters": {
+        "jsCode": "const minutos = $input.first().json.body?.minutos ?? 15;\nreturn [{ json: { minutos } }];;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        -32
+      ],
+      "id": "db573665-60a9-4f94-90e2-061dd3d652b3",
+      "name": "¿Minutos enviados o 15 min por defecto?"
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "6764792568",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2720,
+        -32
+      ],
+      "id": "722e84e2-3abc-4b2c-b647-96e3b257dd3f",
+      "name": "Enviar Gráfica por Telegram",
+      "webhookId": "05975862-c680-4bef-ba70-2222c9724788",
+      "credentials": {
+        "telegramApi": {
+          "id": "BDvw4n6mO7CNJGD8",
+          "name": "Control Tanque"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "6764792568",
+        "text": "=✅ ESTADO NORMAL RECUPERADO\n\nEl tanque ha salido de la zona de peligro.\nEl sistema vuelve a funcionar con normalidad.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2560,
+        -592
+      ],
+      "id": "2b89c494-a943-4b20-915f-fe5fce37dbb6",
+      "name": "Enviar mensaje Fuera de Peligro",
+      "webhookId": "e4b5d284-60eb-4d26-83fa-f5448d14f00f",
+      "credentials": {
+        "telegramApi": {
+          "id": "g7plW0sDKCRtySM6",
+          "name": "Alertas Tanque"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "6764792568",
+        "text": "={{ $json.tipo === 'factoryio_parado' ? '⚠️ FALLO DE COMUNICACIÓN' : '✅ COMUNICACIÓN RESTAURADA' }}\n{{ $json.descripcion }}\nFecha: {{ new Date($json.fecha).toLocaleDateString('es-ES') + ' ' + new Date($json.fecha).toLocaleTimeString('es-ES') }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2096,
+        -576
+      ],
+      "id": "4fc784cd-a84d-4b51-a2c1-7cb309272ea9",
+      "name": "Enviar Mensaje Fallo Comunicación",
+      "webhookId": "e86a7e0a-47a3-414f-909b-c25eeb104e09",
+      "credentials": {
+        "telegramApi": {
+          "id": "g7plW0sDKCRtySM6",
+          "name": "Alertas Tanque"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "nivel_tanque",
+          "mode": "list",
+          "cachedResultName": "nivel_tanque"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nivel": "={{ $json.body.nivel }}",
+            "fecha": "={{ $json.body.fecha }}",
+            "caudal_salida": "={{ $json.body.caudal_salida }}",
+            "caudal_entrada": "={{ $json.body.caudal_entrada }}",
+            "sp": "={{ $json.body.sp }}",
+            "estado": "={{ $json.body.estado }}",
+            "alarma": "={{ $json.body.alarma }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "nivel",
+              "displayName": "nivel",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fecha",
+              "displayName": "fecha",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "sp",
+              "displayName": "sp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "alarma",
+              "displayName": "alarma",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "caudal_entrada",
+              "displayName": "caudal_entrada",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "caudal_salida",
+              "displayName": "caudal_salida",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1632,
+        -208
+      ],
+      "id": "3da80bb0-93fe-469f-97ff-d75fe8acecb3",
+      "name": "Guardar Datos del Tanque",
+      "credentials": {
+        "postgres": {
+          "id": "ZRHXle1i0XLhwjQg",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const allItems = $input.all();\nconst fechas = [];\nconst niveles = [];\n\nfor (const fila of allItems) {\n  fechas.push(fila.json.fecha);\n  niveles.push(fila.json.nivel);\n}\n\nconst chatId = allItems[0]?.json.chatId ?? null;\nconst minutos = allItems[0]?.json.minutos ?? 15;\n\nreturn [{ json: { fechas, niveles, chatId, minutos } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2096,
+        -32
+      ],
+      "id": "da99918f-0115-4448-be9a-1e7d2c9e3bad",
+      "name": "Agrupar datos para Python"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {},\n    binary: {\n      data: {\n        data: Buffer.from($json.imagen, 'base64'),\n        mimeType: 'image/png',\n        fileName: 'grafica.png'\n      }\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2512,
+        -32
+      ],
+      "id": "a159d2c5-9a5c-4ee7-b09a-104411f9304c",
+      "name": "Generar Imagen Binaria"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://python-grafica:5000/grafica",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{$json}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2304,
+        -32
+      ],
+      "id": "090bc69f-8c02-490f-b404-7b2753715c6a",
+      "name": "Pedir a Python la gráfica"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "fallos_comunicacion",
+          "mode": "list",
+          "cachedResultName": "fallos_comunicacion"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "nivel_ultimo": "={{ $json.nivel_ultimo }}",
+            "tipo": "={{ $json.tipo }}",
+            "descripcion": "={{ $json.descripcion }}",
+            "fecha": "={{ $json.fecha }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "fecha",
+              "displayName": "fecha",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tipo",
+              "displayName": "tipo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "descripcion",
+              "displayName": "descripcion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "nivel_ultimo",
+              "displayName": "nivel_ultimo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1872,
+        -576
+      ],
+      "id": "b969b554-2768-45e0-b549-2e9af0656b51",
+      "name": "Insert Fallo Comunicación Tabla",
+      "credentials": {
+        "postgres": {
+          "id": "ZRHXle1i0XLhwjQg",
+          "name": "Postgres account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook solicitar grafica": {
+      "main": [
+        [
+          {
+            "node": "¿Minutos enviados o 15 min por defecto?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pedir datos ultimos 15 min": {
+      "main": [
+        [
+          {
+            "node": "Agrupar datos para Python",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Enviar mensaje Fuera de Peligro",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviar Alerta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook receive Data": {
+      "main": [
+        [
+          {
+            "node": "Guardar Datos del Tanque",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insertar en Registro Alarmas": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gestionar Alarma": {
+      "main": [
+        [
+          {
+            "node": "Insertar en Registro Alarmas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Comprobar Última Alarma": {
+      "main": [
+        [
+          {
+            "node": "Gestionar Alarma",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Receive Alarm": {
+      "main": [
+        [
+          {
+            "node": "Comprobar Última Alarma",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Receive Fallo Comunicación": {
+      "main": [
+        [
+          {
+            "node": "Formatear Info Fallo Com",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatear Info Fallo Com": {
+      "main": [
+        [
+          {
+            "node": "Insert Fallo Comunicación Tabla",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Minutos enviados o 15 min por defecto?": {
+      "main": [
+        [
+          {
+            "node": "Pedir datos ultimos 15 min",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar Datos del Tanque": {
+      "main": [
+        []
+      ]
+    },
+    "Agrupar datos para Python": {
+      "main": [
+        [
+          {
+            "node": "Pedir a Python la gráfica",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar Imagen Binaria": {
+      "main": [
+        [
+          {
+            "node": "Enviar Gráfica por Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pedir a Python la gráfica": {
+      "main": [
+        [
+          {
+            "node": "Generar Imagen Binaria",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert Fallo Comunicación Tabla": {
+      "main": [
+        [
+          {
+            "node": "Enviar Mensaje Fallo Comunicación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "ac3babbb-37f9-4120-9735-b2025a85490d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c17920ac936e0427b0e89fd8061fa3e3848ef57d40be1561afc3e18584fed2b6"
+  },
+  "id": "bH45FY3ZxgBIkr8Uhfrdf",
+  "tags": []
+}

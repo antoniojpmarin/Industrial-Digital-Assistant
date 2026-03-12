@@ -1,0 +1,1745 @@
+[
+    {
+        "id": "77ea5d7fd236631a",
+        "type": "tab",
+        "label": "Adquisición Datos y Emerg",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b3bf55662dde7eb7",
+        "type": "tab",
+        "label": "Enviar datos n8n",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "83c10fa4de5c5e92",
+        "type": "tab",
+        "label": "¿Factory IO Running?",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a1fafd1ea1604fc8",
+        "type": "tab",
+        "label": "Interfaz Telegram",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "9a45728dd719fd12",
+        "type": "tab",
+        "label": "Inicialización variables globales",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a11720439891cbdf",
+        "type": "subflow",
+        "name": "Subflow 1",
+        "info": "",
+        "in": [
+            {
+                "x": 50,
+                "y": 30,
+                "wires": []
+            }
+        ],
+        "out": []
+    },
+    {
+        "id": "mqtt_broker",
+        "type": "mqtt-broker",
+        "name": "Local MQTT",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "1c0de275.6b729e",
+        "type": "mqtt-broker",
+        "name": "Broker Local",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "nodered",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "e181c831039b822b",
+        "type": "websocket-listener",
+        "path": "ws://localhost:8080/ws",
+        "wholemsg": "false"
+    },
+    {
+        "id": "650a8c268ded3e80",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-dark",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#097479",
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#0eb8c0",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#555555",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#eeeeee",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "a81149249471941c",
+        "type": "ui_tab",
+        "name": "Tanque",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "90bbd8a7226982b3",
+        "type": "modbus-client",
+        "name": "",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "failureLogEnabled": true,
+        "tcpHost": "192.168.1.38",
+        "tcpPort": 502,
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": 9600,
+        "serialDatabits": 8,
+        "serialStopbits": 1,
+        "serialParity": "none",
+        "serialConnectionDelay": 100,
+        "serialAsciiResponseStartDelimiter": "0x3A",
+        "unit_id": 1,
+        "commandDelay": 1,
+        "clientTimeout": 1000,
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": 2000,
+        "parallelUnitIdsAllowed": false,
+        "showErrors": true,
+        "showWarnings": true,
+        "showLogs": true
+    },
+    {
+        "id": "75c8f131d22e5012",
+        "type": "telegram bot",
+        "botname": "BOT ALERTAS TANQUE",
+        "usernames": "",
+        "chatids": "6764792568",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "pollinterval": 300,
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": 6667,
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbothost": "0.0.0.0",
+        "localbotport": 8443,
+        "publicbotport": 8443,
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "38f5c834f5bdcf3b",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "f5fe946268bcc2ff",
+        "type": "ui-theme",
+        "name": "Blue Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094ce",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "e99bc4c39c30b10b",
+        "type": "ui-page",
+        "name": "Page 1",
+        "ui": "38f5c834f5bdcf3b",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "f5fe946268bcc2ff",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "4f1d42a7e6b37820",
+        "type": "ui-group",
+        "name": "Control del Tanque",
+        "page": "e99bc4c39c30b10b",
+        "width": "8",
+        "height": 1,
+        "order": 1,
+        "showTitle": false,
+        "className": "stop-emergencia",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "b8ee84f76162d9db",
+        "type": "ui_group",
+        "name": "Registro de eventos",
+        "tab": "a81149249471941c",
+        "order": 6,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f97abaabc7affc15",
+        "type": "ui_group",
+        "name": "Estado",
+        "tab": "a81149249471941c",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "31495a8a60c1797f",
+        "type": "ui_group",
+        "name": "Gráficas",
+        "tab": "a81149249471941c",
+        "order": 2,
+        "disp": true,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "84ec7dc66adf065f",
+        "type": "ui_group",
+        "name": "Caudales",
+        "tab": "a81149249471941c",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a9c9dbf4a3e888b3",
+        "type": "ui_group",
+        "name": "Setpoints",
+        "tab": "a81149249471941c",
+        "order": 4,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5d3b3811e2e72abf",
+        "type": "ui_group",
+        "name": "Comunicación",
+        "tab": "a81149249471941c",
+        "order": 5,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "87b215c250b2b4fa",
+        "type": "modbus-read",
+        "z": "77ea5d7fd236631a",
+        "name": "Lectura Nivel Tanque",
+        "topic": "",
+        "showStatusActivities": false,
+        "logIOActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "InputRegister",
+        "adr": "0",
+        "quantity": "1",
+        "rate": "1",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "",
+        "server": "90bbd8a7226982b3",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 160,
+        "y": 180,
+        "wires": [
+            [
+                "561cca2d434a3d23",
+                "5e6d516d10475d3d"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "0a2a4479776248ad",
+        "type": "modbus-read",
+        "z": "77ea5d7fd236631a",
+        "name": "Caudal Llenado",
+        "topic": "",
+        "showStatusActivities": false,
+        "logIOActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "0",
+        "quantity": "1",
+        "rate": "100",
+        "rateUnit": "ms",
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "",
+        "server": "90bbd8a7226982b3",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 140,
+        "y": 280,
+        "wires": [
+            [
+                "2ef951779f3b1ce9"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "05fe95017313eb6e",
+        "type": "modbus-read",
+        "z": "77ea5d7fd236631a",
+        "name": "Caudal Vaciado",
+        "topic": "",
+        "showStatusActivities": false,
+        "logIOActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "1",
+        "quantity": "1",
+        "rate": "100",
+        "rateUnit": "ms",
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "",
+        "server": "90bbd8a7226982b3",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 140,
+        "y": 380,
+        "wires": [
+            [
+                "cd37c0c1a3618216"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "2ef951779f3b1ce9",
+        "type": "function",
+        "z": "77ea5d7fd236631a",
+        "name": "Guardar Caudal Entrada",
+        "func": "let x = msg.payload[0]; \n\nglobal.set(\"caudal_entrada_leido\", x); \n\nmsg.payload = x;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cd37c0c1a3618216",
+        "type": "function",
+        "z": "77ea5d7fd236631a",
+        "name": "Guardar Caudal Salida",
+        "func": "let x = msg.payload[0]; \n\nglobal.set(\"caudal_salida_leido\", x); \n\nmsg.payload = x;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "561cca2d434a3d23",
+        "type": "function",
+        "z": "77ea5d7fd236631a",
+        "name": "Guardar Nivel Tanque",
+        "func": "// Si Factory IO no está running → no enviar datos\nlet factoryio = global.get(\"estado_factoryio\");\nif (!factoryio) return null;\n\nlet x = msg.payload[0];\n\nglobal.set(\"NivelActual\", x);\nglobal.set(\"ultimo_nivel_modbus\", Date.now());\n\nmsg.payload = x;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 40,
+        "wires": [
+            [
+                "5caf3a22e1baa0d7"
+            ]
+        ]
+    },
+    {
+        "id": "5e6d516d10475d3d",
+        "type": "function",
+        "z": "77ea5d7fd236631a",
+        "name": "Control Tanque",
+        "func": "let start = global.get(\"start\");\nlet nivel = global.get(\"NivelActual\");\nlet sp = global.get(\"SP\");\nlet modo_sim = global.get(\"modo_sim\");\nlet sp_sim = global.get(\"SP_sim\");\nlet emerg_alta = global.get(\"modoEmergencia_alto\");\nlet emerg_baja = global.get(\"modoEmergencia_bajo\");\n\n// =====================================================\n// 🚨 EMERGENCIAS (SIEMPRE ACTIVAS, INCLUSO EN OFF)\n// =====================================================\n\n\n// EMERGENCIA NIVEL ALTO → llevar a 60\nif (emerg_alta) {\n    let sp_emergencia = 60;\n    if (nivel <= sp_emergencia) {\n        return [{ payload: 0 }, { payload: 0 }]; // ya está en zona segura\n    }\n    let empty = Math.min(100, Math.round((nivel - sp_emergencia) * 5));\n    return [{ payload: 0 }, { payload: empty }];\n}\n\n// EMERGENCIA NIVEL BAJO → llevar a 40\nif (emerg_baja) {\n    let sp_emergencia = 40;\n    if (nivel >= sp_emergencia) {\n        return [{ payload: 0 }, { payload: 0 }]; // ya está en zona segura\n    }\n    let fill = Math.min(100, Math.round((sp_emergencia - nivel) * 5));\n    return [{ payload: fill }, { payload: 0 }];\n}\n\n\n\n// =====================================================\n// 🟦 SI ESTÁ EN OFF\n// =====================================================\nif (!start) {\n    return [{ payload: 0 }, { payload: 0 }];\n}\n\n// =====================================================\n// 🟩 CONTROL SIMULADO\n// =====================================================\n\nif (modo_sim && start) {\n    sp = sp_sim;\n}\n\nif (sp === undefined || sp === null) {\n    return [{ payload: 0 }, { payload: 0 }];\n}\n\nlet deadband = 0.5;\nlet fill = 0;\nlet empty = 0;\n\nif (nivel < sp - deadband) {\n    fill = Math.min(100, Math.round((sp - nivel) * 5));\n} else if (nivel > sp + deadband) {\n    empty = Math.min(100, Math.round((nivel - sp) * 5));\n}\n\nreturn [\n    { payload: fill },\n    { payload: empty }\n];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 160,
+        "wires": [
+            [
+                "c71454a47835e703"
+            ],
+            [
+                "5af264b1173e839f"
+            ]
+        ]
+    },
+    {
+        "id": "c71454a47835e703",
+        "type": "modbus-write",
+        "z": "77ea5d7fd236631a",
+        "name": "Llenar Tanque",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "0",
+        "quantity": "1",
+        "server": "90bbd8a7226982b3",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 680,
+        "y": 120,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "5af264b1173e839f",
+        "type": "modbus-write",
+        "z": "77ea5d7fd236631a",
+        "name": "Vaciar Tanque",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "HoldingRegister",
+        "adr": "1",
+        "quantity": "1",
+        "server": "90bbd8a7226982b3",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 680,
+        "y": 180,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "5caf3a22e1baa0d7",
+        "type": "function",
+        "z": "77ea5d7fd236631a",
+        "name": "¿Hay emergencia?",
+        "func": "let nivel = global.get(\"NivelActual\");\n\n// Histéresis\nlet prev_alta = global.get(\"modoEmergencia_alto\");\nlet prev_baja = global.get(\"modoEmergencia_bajo\");\nglobal.set(\"modoEmergencia_alto\", nivel > 70 || (prev_alta && nivel > 60));\nglobal.set(\"modoEmergencia_bajo\", nivel < 30 || (prev_baja && nivel < 40));\n\n// Leer el nuevo estado\nlet emerg_alta = global.get(\"modoEmergencia_alto\");\nlet emerg_baja = global.get(\"modoEmergencia_bajo\");\n\n// DESPUÉS\nlet hay_emerg = !!(emerg_alta || emerg_baja);\nlet prev_n8n = global.get(\"prev_emerg_n8n\") ?? false;\nglobal.set(\"prev_emerg_n8n\", hay_emerg);\n\nif (hay_emerg !== prev_n8n) {\n    // INCIDENCIAS\n    let log = global.get(\"log_incidencias\") || [];\n    let textoNuevo = hay_emerg\n        ? (emerg_alta ? \"Emergencia nivel ALTO\" : \"Emergencia nivel BAJO\")\n        : \"✅ Nivel recuperado - sin emergencia\";\n\n    // Evitar duplicados consecutivos\n    if (log.length === 0 || log[0].texto !== textoNuevo) {\n        log.unshift({ hora: new Date().toLocaleTimeString('es-ES'), tipo: \"⚠️\", texto: textoNuevo });\n        if (log.length > 20) log.pop();\n        global.set(\"log_incidencias\", log);\n    }\n\n    msg.payload = {\n        nivel,\n        fecha : new Date().toLocaleString(\"sv-SE\", {\n                    timeZone: \"Europe/Madrid\",\n                    hour12: false\n                    }).replace(\" \", \"T\"),\n\n        estado: global.get(\"start\") || 0,\n        sp: global.get(\"SP\") || null,\n        alarma: emerg_alta ? \"nivel alto\" : emerg_baja ? \"nivel bajo\" : \"ninguna\",\n        caudal_entrada: global.get(\"caudal_entrada_leido\") || 0,\n        caudal_salida: global.get(\"caudal_salida_leido\") || 0\n    };\n    return msg;\n}\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 40,
+        "wires": [
+            [
+                "32a28d3c22a74150"
+            ]
+        ]
+    },
+    {
+        "id": "32a28d3c22a74150",
+        "type": "http request",
+        "z": "77ea5d7fd236631a",
+        "name": "Enviar n8n Alarma",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://n8n:5678/webhook/alarma",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 890,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6a4b373a1f0c80ed",
+        "type": "http request",
+        "z": "b3bf55662dde7eb7",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://n8n:5678/webhook/datos",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 690,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b485f369e4bae9eb",
+        "type": "function",
+        "z": "b3bf55662dde7eb7",
+        "name": "Preparar datos para n8n",
+        "func": "// Añadir al principio de la función\nif (!global.get(\"estado_factoryio\")) return null;\n\n// Nivel actual\nlet nivel = global.get(\"NivelActual\");\n\n// Fecha actual en ISO\nlet fecha = new Date().toLocaleString(\"sv-SE\", {\n    timeZone: \"Europe/Madrid\",\n    hour12: false\n}).replace(\" \", \"T\");\n\n\n// Estado ON/OFF\nlet estado = global.get(\"start\") || 0;\n\n// Setpoint actual\nlet sp = global.get(\"SP\") || null;\n\n// ===============================\n// 🚨 GENERAR ALARMA PARA N8N\n// ===============================\nlet emerg_alta = global.get(\"modoEmergencia_alto\");\nlet emerg_baja = global.get(\"modoEmergencia_bajo\");\n\nlet alarma = \"ninguna\";\nif (emerg_alta) alarma = \"nivel alto\";\nelse if (emerg_baja) alarma = \"nivel bajo\";\n\n// Caudales\nlet caudal_entrada = global.get(\"caudal_entrada_leido\") || 0;\nlet caudal_salida = global.get(\"caudal_salida_leido\") || 0;\n\n// Construir JSON para n8n\nmsg.payload = {\n    nivel,\n    fecha,\n    estado,\n    sp,\n    alarma,\n    caudal_entrada,\n    caudal_salida\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 180,
+        "wires": [
+            [
+                "6a4b373a1f0c80ed"
+            ]
+        ]
+    },
+    {
+        "id": "099d55722b27ed4f",
+        "type": "inject",
+        "z": "b3bf55662dde7eb7",
+        "name": "Trigger cada 3 seg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "3",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 180,
+        "wires": [
+            [
+                "b485f369e4bae9eb"
+            ]
+        ]
+    },
+    {
+        "id": "2ea03403023edaee",
+        "type": "modbus-read",
+        "z": "83c10fa4de5c5e92",
+        "name": "¿Factory IO running?",
+        "topic": "",
+        "showStatusActivities": false,
+        "logIOActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "unitid": "1",
+        "dataType": "Input",
+        "adr": "3",
+        "quantity": "1",
+        "rate": "200",
+        "rateUnit": "ms",
+        "delayOnStart": false,
+        "enableDeformedMessages": false,
+        "startDelayTime": "",
+        "server": "90bbd8a7226982b3",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 160,
+        "y": 180,
+        "wires": [
+            [
+                "e5716f75d2d5cda0"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "e5716f75d2d5cda0",
+        "type": "function",
+        "z": "83c10fa4de5c5e92",
+        "name": "Comprobar si Factory IO running",
+        "func": "let running = msg.payload[0]; // true = running, false = parado\n\nlet prev = global.get(\"estado_factoryio\") ?? null;\nglobal.set(\"estado_factoryio\", running);\n\nif (running === prev) return null;\n\nlet log = global.get(\"log_incidencias\") || [];\nlog.unshift({ hora: new Date().toLocaleTimeString('es-ES'), tipo: running ? \"✅\" : \"🔌\", texto: running ? \"Factory IO conectado\" : \"Factory IO desconectado\" });\nif (log.length > 20) log.pop();\nglobal.set(\"log_incidencias\", log);\n\nif (!running) {\n    msg.payload = {\n        tipo: \"factoryio_parado\",\n        descripcion: \"Factory IO detenido o desconectado\",\n        nivel: global.get(\"NivelActual\")\n    };\n} else {\n    msg.payload = {\n        tipo: \"factoryio_running\",\n        descripcion: \"Factory IO en marcha\",\n        nivel: global.get(\"NivelActual\")\n    };\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 160,
+        "wires": [
+            [
+                "9ed4b7c151fc9102"
+            ]
+        ]
+    },
+    {
+        "id": "9ed4b7c151fc9102",
+        "type": "http request",
+        "z": "83c10fa4de5c5e92",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://n8n:5678/webhook/fallo_com",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 750,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7047f0247bf25d4f",
+        "type": "telegram receiver",
+        "z": "a1fafd1ea1604fc8",
+        "name": "Peticion de fill / drain Telegram",
+        "bot": "75c8f131d22e5012",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "hasinput": false,
+        "inputs": 0,
+        "handleallupdates": false,
+        "x": 180,
+        "y": 160,
+        "wires": [
+            [
+                "8b47113063554392"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "8b47113063554392",
+        "type": "function",
+        "z": "a1fafd1ea1604fc8",
+        "name": "Funcion Respuesta a telegram",
+        "func": "// FUNCIÓN PARA MENSAJES A ENVIAR POR TELEGRAM\nfunction mensaje(chatId, content) {\n    return {\n        payload: {\n            chatId,\n            type: \"message\",\n            content,\n            options: { parse_mode: \"Markdown\" }\n        }\n    };\n}\n\nconst cmd = msg.payload?.content?.trim().toLowerCase() || null;\nconst chatId = msg.payload?.chatId || null;\n\nlet start = global.get(\"start\") || 0;\nlet cambioEstado = false;\nlet msgTelegram = null;\n\n// ON\nif (cmd === \"/on\") {\n    if (!start) {\n        global.set(\"start\", true);\n        start = true;\n        cambioEstado = true;\n\n        let log = global.get(\"log_incidencias\") || [];\n        log.unshift({ hora: new Date().toLocaleTimeString('es-ES'), tipo: \"🟢\", texto: \"Tanque ON\" });\n        if (log.length > 20) log.pop();\n        global.set(\"log_incidencias\", log);\n\n    } else {\n        msgTelegram = mensaje(chatId, \"ℹ️ El tanque ya está en ON ✅\");\n    }\n}\n\n// OFF\nelse if (cmd === \"/off\") {\n    if (start) {\n        global.set(\"start\", false);\n        global.set(\"SP\", undefined);\n        global.set(\"modo_sim\", false);\n        start = false;\n        cambioEstado = true;\n\n        let log = global.get(\"log_incidencias\") || [];\n        log.unshift({ hora: new Date().toLocaleTimeString('es-ES'), tipo: \"❌\", texto: \"Tanque OFF\" });\n        if (log.length > 20) log.pop();\n        global.set(\"log_incidencias\", log);\n\n    } else {\n        msgTelegram = mensaje(chatId, \"ℹ️ El tanque ya está en OFF ❌\");\n    }\n}\n\n// SP\nelse if (cmd?.startsWith(\"/sp\") && chatId) {\n    if (!start)\n        return [mensaje(chatId, \"⛔ El tanque está en OFF. Ponlo en ON antes de fijar un SP.\"), null, null, null];\n\n    const match = cmd.match(/\\/sp[:\\s]+(\\d+(\\.\\d+)?)/);\n    if (!match)\n        return [mensaje(chatId, \"❌ Formato incorrecto. Usa: /sp: XX\"), null, null, null];\n\n    const sp = Number(match[1]);\n\n    if (sp < 30 || sp > 70)\n        return [mensaje(chatId, \"❌ SP no válido. El rango recomendado es 30–70%\"), null, null, null];\n\n    global.set(\"SP\", sp);\n\n    // ✅ NUEVO: registrar cambio de SP\n    let log = global.get(\"log_incidencias\") || [];\n    log.unshift({ hora: new Date().toLocaleTimeString('es-ES'), tipo: \"🎯\", texto: `SP fijado: ${sp}%` });\n    if (log.length > 20) log.pop();\n    global.set(\"log_incidencias\", log);\n\n    return [mensaje(chatId, `✅ Setpoint recibido: ${sp}%`), null, null, null];\n}\n\n// NIVEL\nelse if (cmd === \"/nivel\" && chatId) {\n    const nivel = global.get(\"NivelActual\");\n    msgTelegram = mensaje(chatId, `📏 Nivel actual: ${nivel}%`);\n}\n\n// GRÁFICA\nelse if (cmd?.startsWith(\"/grafica\") && chatId) {\n\n    // Extraer minutos si los hay, por defecto 15\n    const match = cmd.match(/\\/grafica[:\\s]+(\\d+)/);\n    const minutos = match ? parseInt(match[1]) : 15;\n\n    if (minutos < 1 || minutos > 60)\n        return [mensaje(chatId, \"❌ Minutos no válidos. Usa un valor entre 1 y 60.\"), null, null, null];\n\n    msgTelegram = mensaje(chatId, `📊 Generando gráfica de los últimos ${minutos} minutos...`);\n\n    let log = global.get(\"log_incidencias\") || [];\n    log.unshift({ hora: new Date().toLocaleTimeString('es-ES'), tipo: \"📈\", texto: `Gráfica solicitada (${minutos} min)` });\n    if (log.length > 20) log.pop();\n    global.set(\"log_incidencias\", log);\n\n    return [msgTelegram, { payload: { chatId, minutos } }, null, null];\n}\n\n// SIMULACIÓN\nelse if (cmd?.startsWith(\"/sim\") && chatId) {\n    if (!start)\n        return [mensaje(chatId, \"Primero pon el tanque en ON!!!\"), null, null, null];\n\n    const match = cmd.match(/\\/sim[:\\s]+(on|off)/);\n    if (!match)\n        return [mensaje(chatId, \"❌ Formato incorrecto. Usa:\\n/sim: on\\n/sim: off\"), null, null, null];\n\n    const modo = match[1] === \"on\";\n    global.set(\"modo_sim\", modo);\n\n    // ✅ NUEVO: al activar sim → SP normal a undefined\n    if (modo) {\n        global.set(\"SP\", undefined);\n    }\n\n    // ✅ NUEVO: registrar cambio de simulación\n    let log = global.get(\"log_incidencias\") || [];\n    log.unshift({ hora: new Date().toLocaleTimeString('es-ES'), tipo: \"🧪\", texto: modo ? \"Simulación activada\" : \"Simulación desactivada\" });\n    if (log.length > 20) log.pop();\n    global.set(\"log_incidencias\", log);\n\n    msgTelegram = mensaje(chatId,\n        modo\n            ? \"🧪 *Simulación activada*\\nEl SP ahora será aleatorio entre 0 y 100.\"\n            : \"🧪 *Simulación desactivada*\\nEl SP vuelve a ser el que tú envíes.\"\n    );\n\n    return [msgTelegram, null, null, modo ? { payload: true } : null];\n}\n\n// INFORME\nelse if (cmd === \"/informe\") {\n    // ✅ NUEVO: registrar envío de informe\n    let log = global.get(\"log_incidencias\") || [];\n    log.unshift({ hora: new Date().toLocaleTimeString('es-ES'), tipo: \"📧\", texto: \"Informe enviado por correo\" });\n    if (log.length > 20) log.pop();\n    global.set(\"log_incidencias\", log);\n\n    msgTelegram = mensaje(chatId, \"📧 Vamos a enviar el informe por correo!!!\");\n    return [msgTelegram, null, { payload: true }, null];\n}\n\n// ESTADO\nelse if (cmd === \"/estado\" && chatId) {\n    const nivel = global.get(\"NivelActual\");\n    const sp = global.get(\"SP\");\n    const start = global.get(\"start\");\n    const emerg_a = global.get(\"modoEmergencia_alto\");\n    const emerg_b = global.get(\"modoEmergencia_bajo\");\n    const sim = global.get(\"modo_sim\");\n\n    return [mensaje(chatId,\n        `📊 *ESTADO DEL SISTEMA*\\n` +\n        `• Tanque: ${start ? \"ON ✅\" : \"OFF ❌\"}\\n` +\n        `• Nivel: ${nivel}%\\n` +\n        `• SP: ${sp ?? \"No definido\"}\\n` +\n        `• Simulación: ${sim ? \"Activa 🧪\" : \"Inactiva\"}\\n` +\n        `• Emergencia: ${(emerg_a || emerg_b) ? \"⚠️ ACTIVA\" : \"Sin alarmas ✅\"}`\n    ), null, null, null];\n}\n\n\n// HELP\nelse if (cmd === \"/help\" && chatId) {\n    return [mensaje(chatId,\n        \"📋 *Comandos:*\\n\" +\n        \"▶️ /on — Activar tanque\\n\" +\n        \"⏹ /off — Detener tanque\\n\" +\n        \"📏 /nivel — Ver nivel actual\\n\" +\n        \"📊 /estado — Ver estado completo\\n\" +\n        \"🎯 /sp: XX — Fijar setpoint (recomendado 30–70%)\\n\" +\n        \"📈 /grafica — Gráfica últimos 15 min\\n\" +\n        \"📈 /grafica: X — Gráfica últimos X minutos (1–60)\\n\" +\n        \"📧 /informe — Informe IA por correo\\n\" +\n        \"🧪 /sim: on|off — Modo simulación SP aleatorio\\n\" +\n        \"❓ /help — Ver esta ayuda\\n\\n\" +\n        \"⚠️ Debes activar /on antes de fijar un setpoint o entrar en Modo SIM\"\n    ), null, null, null];\n}\n\n// COMANDO NO RECONOCIDO\nelse if (chatId) {\n    msgTelegram = mensaje(chatId,\n        \"❌ Comando no reconocido.\\n\\n📋 *Comandos disponibles:*\\n\" +\n        \"▶️ /on — Activar tanque\\n\" +\n        \"⏹ /off — Detener tanque\\n\" +\n        \"📏 /nivel — Ver nivel actual\\n\" +\n        \"📊 /estado — Ver estado completo\\n\" +\n        \"🎯 /sp: XX — Fijar setpoint (recomendado 30–70%)\\n\" +\n        \"📈 /grafica — Gráfica últimos 15 min\\n\" +\n        \"📧 /informe — Informe IA por correo\\n\" +\n        \"🧪 /sim: on|off — Modo simulación SP aleatorio\\n\" +\n        \"❓ /help — Ver esta ayuda\"\n    );\n}\n\n// Mensaje de estado cuando se cambia Start\nif (chatId && cambioEstado) {\n    let texto = `ℹ️ Estado actual:\\n• Tanque: ${start ? \"ON ✅\" : \"OFF ❌\"}`;\n    if (start) texto += `\\n✅ Ahora puedes enviarme un Setpoint con /sp: XX o poner Modo SIM con /sim:on`;\n    msgTelegram = mensaje(chatId, texto);\n}\n\nreturn [msgTelegram, null, null, null];",
+        "outputs": 4,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 160,
+        "wires": [
+            [
+                "95323085db097d3e"
+            ],
+            [
+                "bd3378dd197271e8"
+            ],
+            [
+                "0636d3ecbefa4b77"
+            ],
+            [
+                "ab8c3c260bb5f757"
+            ]
+        ]
+    },
+    {
+        "id": "bd3378dd197271e8",
+        "type": "http request",
+        "z": "a1fafd1ea1604fc8",
+        "name": "Pedir gráfica por Telegram",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://n8n:5678/webhook/grafica",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 820,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0636d3ecbefa4b77",
+        "type": "http request",
+        "z": "a1fafd1ea1604fc8",
+        "name": "Pedir informe Ollama",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://n8n:5678/webhook/informe_ollama",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 800,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "95323085db097d3e",
+        "type": "telegram sender",
+        "z": "a1fafd1ea1604fc8",
+        "name": "Respuesta a Telegram",
+        "bot": "75c8f131d22e5012",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 820,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ac3076629d4a5eef",
+        "type": "inject",
+        "z": "a1fafd1ea1604fc8",
+        "name": "Mensaje inicio",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 60,
+        "wires": [
+            [
+                "72547a45c7a63c6b"
+            ]
+        ]
+    },
+    {
+        "id": "72547a45c7a63c6b",
+        "type": "function",
+        "z": "a1fafd1ea1604fc8",
+        "name": "Mensaje inicio",
+        "func": "msg.payload = {\n    chatId: \"6764792568\",\n    type: \"message\",\n    content:\n        \"⚡ *Sistema iniciado* — Tanque: OFF ⛔\\n\\n\" +\n        \"📋 *Comandos disponibles:*\\n\\n\" +\n        \"▶️ /on — Activar tanque\\n\" +\n        \"⏹ /off — Detener tanque\\n\" +\n        \"📏 /nivel — Ver nivel actual\\n\" +\n        \"📊 /estado — Ver estado completo\\n\" +\n        \"🎯 /sp: XX — Fijar setpoint (recomendado 30–70%)\\n\" +\n        \"📈 /grafica — Gráfica últimos 15 min\\n\" +\n        \"📈 /grafica: X — Gráfica últimos X minutos (1–60)\\n\" +\n        \"📧 /informe — Informe IA por correo\\n\" +\n        \"🧪 /sim: on|off — Modo simulación SP aleatorio\\n\" +\n        \"❓ /help — Ver esta ayuda\\n\\n\" +\n        \"⚠️ Debes activar /on antes de fijar un setpoint o entrar en Modo SIM\",\n    options: {\n        parse_mode: \"Markdown\"\n    }\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 60,
+        "wires": [
+            [
+                "95323085db097d3e"
+            ]
+        ]
+    },
+    {
+        "id": "478f6fd367384165",
+        "type": "inject",
+        "z": "a1fafd1ea1604fc8",
+        "name": "Cada 20 seg",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "20",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 520,
+        "y": 380,
+        "wires": [
+            [
+                "ab8c3c260bb5f757"
+            ]
+        ]
+    },
+    {
+        "id": "ab8c3c260bb5f757",
+        "type": "function",
+        "z": "a1fafd1ea1604fc8",
+        "name": "Enviar SP_sim random",
+        "func": "// Solo generar SP_SIM si la simulación está activa\nif (global.get(\"modo_sim\") === true) {\n\n    let sp_sim = Math.floor(Math.random() * 101); // 0–100\n\n    global.set(\"SP_sim\", sp_sim);\n\n    msg.payload = `${sp_sim}`;\n    return msg;\n\n} else {\n    return null; // no hacer nada si la simulación está apagada\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ec91a1d5df5ff6a6",
+        "type": "inject",
+        "z": "9a45728dd719fd12",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "0.5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "0",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 120,
+        "wires": [
+            [
+                "aef47aef8d940f84",
+                "6137e2ee69b3bcfd",
+                "cf51ce18419344a3",
+                "4573660cd112fd3e",
+                "092057d4618fce2a",
+                "747aec26d7669350",
+                "87cc3205e4d42f7f",
+                "d42d9043df02d5af",
+                "69483f741b41c5d7",
+                "a24c16c248a8897a",
+                "21c4876983aa5c9d",
+                "f27bdde6329b6051",
+                "6a896d4904fe83a5"
+            ]
+        ]
+    },
+    {
+        "id": "aef47aef8d940f84",
+        "type": "function",
+        "z": "9a45728dd719fd12",
+        "name": "¿Emergencia?",
+        "func": "let x = global.get(\"modoEmergencia_alto\");\nlet y = global.get(\"modoEmergencia_bajo\");\n\nmsg.payload = (x || y) ? true : false;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 40,
+        "wires": [
+            [
+                "590e209856bfdb4b"
+            ]
+        ]
+    },
+    {
+        "id": "64980110c417f6ca",
+        "type": "ui_chart",
+        "z": "9a45728dd719fd12",
+        "name": "Gráfica Nivel",
+        "group": "31495a8a60c1797f",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Nivel del Tanque (%)",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": "15",
+        "removeOlderPoints": "3000",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 850,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cd172410d6093384",
+        "type": "ui_gauge",
+        "z": "9a45728dd719fd12",
+        "name": "Caudal Entrada",
+        "group": "84ec7dc66adf065f",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "donut",
+        "title": "Caudal Entrada",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "30",
+        "seg2": "80",
+        "diff": false,
+        "className": "",
+        "x": 860,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "b1631510e55e4811",
+        "type": "ui_gauge",
+        "z": "9a45728dd719fd12",
+        "name": "Caudal Salida",
+        "group": "84ec7dc66adf065f",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "gtype": "donut",
+        "title": "Caudal Salida",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "30",
+        "seg2": "80",
+        "diff": false,
+        "className": "",
+        "x": 860,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "bff50a433b7d1aee",
+        "type": "ui_chart",
+        "z": "9a45728dd719fd12",
+        "name": "Caudales",
+        "group": "31495a8a60c1797f",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Caudales (%)",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": "15",
+        "removeOlderPoints": "3000",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#ff8d0a",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 840,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "026c200202ee0826",
+        "type": "ui_led",
+        "z": "9a45728dd719fd12",
+        "order": 2,
+        "group": "f97abaabc7affc15",
+        "width": 0,
+        "height": 0,
+        "label": "Modo Simulación",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "¿Modo SIM?",
+        "x": 850,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "09270e9a98d85bea",
+        "type": "ui_led",
+        "z": "9a45728dd719fd12",
+        "order": 1,
+        "group": "f97abaabc7affc15",
+        "width": 0,
+        "height": 0,
+        "label": "Estado (ON/OFF)",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": true,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "Led Estado",
+        "x": 850,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "747aec26d7669350",
+        "type": "function",
+        "z": "9a45728dd719fd12",
+        "name": "Nivel Actual",
+        "func": "let x = global.get(\"NivelActual\");\nmsg.payload = x;\nmsg.topic = \"Nivel actual\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 300,
+        "wires": [
+            [
+                "64980110c417f6ca",
+                "5396b489a703d1d0"
+            ]
+        ]
+    },
+    {
+        "id": "87cc3205e4d42f7f",
+        "type": "function",
+        "z": "9a45728dd719fd12",
+        "name": "Caudal Entrada",
+        "func": "let x = global.get(\"caudal_entrada_leido\");\n\nmsg.payload = x;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 340,
+        "wires": [
+            [
+                "cd172410d6093384"
+            ]
+        ]
+    },
+    {
+        "id": "d42d9043df02d5af",
+        "type": "function",
+        "z": "9a45728dd719fd12",
+        "name": "Caudal Salida",
+        "func": "let x = global.get(\"caudal_salida_leido\");\n\nmsg.payload = x;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 380,
+        "wires": [
+            [
+                "b1631510e55e4811"
+            ]
+        ]
+    },
+    {
+        "id": "69483f741b41c5d7",
+        "type": "function",
+        "z": "9a45728dd719fd12",
+        "name": "SP",
+        "func": "let x = global.get(\"SP\");\nlet sim = global.get(\"modo_sim\");\n\nmsg.payload = x;\nmsg.sim = sim ? true : false;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 420,
+        "wires": [
+            [
+                "9fba89ed55a79ea5"
+            ]
+        ]
+    },
+    {
+        "id": "a24c16c248a8897a",
+        "type": "function",
+        "z": "9a45728dd719fd12",
+        "name": "SP sim",
+        "func": "let x = global.get(\"SP_sim\");\nlet sim = global.get(\"modo_sim\");\n\nmsg.payload = x;\nmsg.sim = sim ? true : false;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 460,
+        "wires": [
+            [
+                "34fd6458071149da"
+            ]
+        ]
+    },
+    {
+        "id": "6137e2ee69b3bcfd",
+        "type": "function",
+        "z": "9a45728dd719fd12",
+        "name": "Led Estado",
+        "func": "let start = global.get(\"start\");\n\nmsg.payload = start ? true : false;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 80,
+        "wires": [
+            [
+                "09270e9a98d85bea"
+            ]
+        ]
+    },
+    {
+        "id": "cf51ce18419344a3",
+        "type": "function",
+        "z": "9a45728dd719fd12",
+        "name": "¿Modo Sim?",
+        "func": "let x = global.get(\"modo_sim\");\n\nmsg.payload = x ? true : false;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 120,
+        "wires": [
+            [
+                "026c200202ee0826"
+            ]
+        ]
+    },
+    {
+        "id": "092057d4618fce2a",
+        "type": "function",
+        "z": "9a45728dd719fd12",
+        "name": "Caudal Salida",
+        "func": "let x = global.get(\"caudal_salida_leido\");\n\nmsg.payload = x;\nmsg.topic = \"Caudal Salida\";\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 200,
+        "wires": [
+            [
+                "bff50a433b7d1aee"
+            ]
+        ]
+    },
+    {
+        "id": "4573660cd112fd3e",
+        "type": "function",
+        "z": "9a45728dd719fd12",
+        "name": "Caudal Entrada",
+        "func": "let x = global.get(\"caudal_entrada_leido\");\n\nmsg.payload = x;\nmsg.topic = \"Caudal Entrada\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 160,
+        "wires": [
+            [
+                "bff50a433b7d1aee"
+            ]
+        ]
+    },
+    {
+        "id": "201afb185623a94f",
+        "type": "function",
+        "z": "9a45728dd719fd12",
+        "name": "Inicialización",
+        "func": "global.set(\"start\", 0);            // OFF al inicio\nglobal.set(\"SP\", undefined);       // No hay SP hasta que tú lo pongas\nglobal.set(\"NivelActual\", 0);\nglobal.set(\"caudal_entrada_leido\", undefined);\nglobal.set(\"caudal_salida_leido\", undefined);\nglobal.set(\"modo_sim\", false);\nglobal.set(\"SP_sim\", undefined); // SP que se pondrá aleatorio para ver cómo reacciona el tanque\n\n// ← NUEVAS: watchdog comunicación FACTORY IO\nglobal.set(\"ultimo_nivel_modbus\", Date.now()); // ← Date.now()\n\n// Emergencias\nglobal.set(\"modoEmergencia_alto\", null);\nglobal.set(\"modoEmergencia_bajo\", null);\nglobal.set(\"prev_emerg_n8n\", false);\n\nglobal.set(\"estado_factoryio\", null);\n\nglobal.set(\"log_incidencias\", []);\n\nreturn null;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "986f43850fc65816",
+        "type": "inject",
+        "z": "9a45728dd719fd12",
+        "name": "Inicio",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 460,
+        "wires": [
+            [
+                "201afb185623a94f"
+            ]
+        ]
+    },
+    {
+        "id": "590e209856bfdb4b",
+        "type": "ui_template",
+        "z": "9a45728dd719fd12",
+        "group": "f97abaabc7affc15",
+        "name": "¿Modo Emergencia?",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "format": "<div style=\"text-align:center;\">\n    <p style=\"font-size:16px; font-weight:bold; margin-bottom:5px;\">Modo Emergencia</p>\n    <span style=\"font-size:40px;\"\n        ng-style=\"msg.payload ? {'color':'red', 'opacity':'1'} : {'opacity':'0.1'}\"\n        ng-class=\"{'parpadeo': msg.payload}\">⚠️</span>\n</div>\n\n<style>\n    .parpadeo {\n        animation: parpadeo 1s infinite;\n    }\n\n    @keyframes parpadeo {\n\n        0%,\n        100% {\n            opacity: 1;\n        }\n\n        50% {\n            opacity: 0;\n        }\n    }\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 880,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9fba89ed55a79ea5",
+        "type": "ui_template",
+        "z": "9a45728dd719fd12",
+        "group": "a9c9dbf4a3e888b3",
+        "name": "SP",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-style=\"{\n  'background': 'linear-gradient(135deg, #1a3a4a, #0d2233)',\n  'border': '1px solid #0eb8c0',\n  'border-radius': '10px',\n  'padding': '12px',\n  'text-align': 'center',\n  'box-shadow': '0 0 12px rgba(14,184,192,0.2)',\n  'opacity': msg.payload === undefined ? 1 : (msg.sim ? 0.3 : 1),\n  'filter': msg.sim ? 'grayscale(80%)' : 'none'\n}\">\n  <div style=\"font-size:11px; color:#888; letter-spacing:2px; text-transform:uppercase;\">Setpoint Introducido</div>\n  <div style=\"font-size:42px; font-weight:bold; color:#0eb8c0; line-height:1.1;\">\n    {{msg.payload}}<span style=\"font-size:18px\">%</span>\n  </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 830,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "34fd6458071149da",
+        "type": "ui_template",
+        "z": "9a45728dd719fd12",
+        "group": "a9c9dbf4a3e888b3",
+        "name": "SP sim",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-style=\"{\n  'background': 'linear-gradient(135deg, #1a3a4a, #0d2233)',\n  'border': '1px solid #0eb8c0',\n  'border-radius': '10px',\n  'padding': '12px',\n  'text-align': 'center',\n  'box-shadow': '0 0 12px rgba(14,184,192,0.2)',\n  'opacity': msg.sim ? 1 : 0.3,\n  'filter': msg.sim ? 'none' : 'grayscale(80%)'\n}\">\n  <div style=\"font-size:11px; color:#888; letter-spacing:2px; text-transform:uppercase;\">Setpoint Simulado</div>\n  <div style=\"font-size:42px; font-weight:bold; color:#0eb8c0; line-height:1.1;\">\n    {{msg.payload}}<span style=\"font-size:18px\">%</span>\n  </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 840,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5396b489a703d1d0",
+        "type": "ui_template",
+        "z": "9a45728dd719fd12",
+        "group": "f97abaabc7affc15",
+        "name": "Nivel Tanque",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "format": "<div style=\"text-align:center; padding:6px;\">\n\n        <div style=\"font-size:15px; color:#888; letter-spacing:2px; text-transform:uppercase;\">\n                NIVEL TANQUE\n        </div>\n\n        <div style=\"display:inline-block; position:relative; margin-top:8px;\">\n\n                <!-- Tanque -->\n                <div style=\"position:relative; width:80px; height:180px;\n            border:2px solid #0eb8c0; border-radius:6px 6px 10px 10px;\n            background:#0d1f2d; overflow:hidden;\">\n\n                        <!-- Agua -->\n                        <div ng-style=\"{\n                'height': (msg.payload <= 0 ? 0 : (msg.payload >= 100 ? 100 : msg.payload)) + '%',\n                'background':\n                    (msg.payload > 70 || msg.payload < 30) ? 'linear-gradient(#ff4444,#990000)' :\n                    (msg.payload == 70 || msg.payload == 30) ? 'linear-gradient(#ffaa00,#cc5500)' :\n                    'linear-gradient(#00d4ff,#0055aa)'\n            }\" style=\"position:absolute; bottom:0; left:0; right:0; transition:0.5s;\">\n                        </div>\n                </div>\n\n                <!-- Líneas y números (fuera del overflow) -->\n                <div style=\"position:absolute; top:0; left:0; width:80px; height:180px; pointer-events:none;\">\n\n                        <!-- Línea 70 -->\n                        <div\n                                style=\"position:absolute; left:0; right:0; bottom:calc(70% - 2px); height:1px; background:#ff4444;\">\n                        </div>\n                        <div\n                                style=\"position:absolute; left:90px; bottom:calc(70% - 2px); transform:translateY(50%); color:#ff4444; font-size:10px;\">\n                                70\n                        </div>\n\n                        <!-- Línea 30 -->\n                        <div\n                                style=\"position:absolute; left:0; right:0; bottom:calc(30% - 2px); height:1px; background:#ff4444;\">\n                        </div>\n                        <div\n                                style=\"position:absolute; left:90px; bottom:calc(30% - 2px); transform:translateY(50%); color:#ff4444; font-size:10px;\">\n                                30\n                        </div>\n\n                </div>\n\n        </div>\n\n        <!-- Valor numérico -->\n        <div ng-style=\"{\n        'color':\n            (msg.payload > 70 || msg.payload < 30) ? '#ff4444' :\n            (msg.payload == 70 || msg.payload == 30) ? '#ffaa00' :\n            '#0eb8c0'\n    }\" style=\"font-size:36px; font-weight:bold; margin-top:8px;\">\n                {{msg.payload}}%\n        </div>\n\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 850,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "21c4876983aa5c9d",
+        "type": "function",
+        "z": "9a45728dd719fd12",
+        "name": "¿Fallo en conexión?",
+        "func": "let factoryio = global.get(\"estado_factoryio\");\nlet ultimo = global.get(\"ultimo_nivel_modbus\") || Date.now();\nlet segundos = Math.round((Date.now() - ultimo) / 1000);\n\n// Fallo = Factory IO parado O sin datos en 5s\nlet fallo = factoryio === false || segundos > 5;\n\nmsg.payload = { segundos, fallo };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 500,
+        "wires": [
+            [
+                "89ab3638e933da8d"
+            ]
+        ]
+    },
+    {
+        "id": "89ab3638e933da8d",
+        "type": "ui_template",
+        "z": "9a45728dd719fd12",
+        "group": "5d3b3811e2e72abf",
+        "name": "Comunicación",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-style=\"{'background': msg.payload.fallo ? 'rgba(255,68,68,0.15)' : 'rgba(0,200,100,0.1)',\n                'border': msg.payload.fallo ? '1px solid #ff4444' : '1px solid #00c864',\n                'border-radius': '6px', 'padding': '6px', 'text-align': 'center'}\">\n    <div style=\"font-size:9px; color:#888; letter-spacing:1px;\">COMUNICACIÓN FACTORY IO</div>\n    <div ng-style=\"{'color': msg.payload.fallo ? '#ff4444' : '#00c864'}\"\n        style=\"font-size:13px; font-weight:bold; margin-top:2px;\">\n        {{msg.payload.fallo ? '⚠️ SIN DATOS' : '✅ CONECTADO'}}\n    </div>\n    <div style=\"font-size:10px; color:#888;\">\n        último dato hace {{msg.payload.segundos}}s\n    </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 860,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ebc86f57cbce590b",
+        "type": "ui_template",
+        "z": "9a45728dd719fd12",
+        "group": "b8ee84f76162d9db",
+        "name": "Eventos",
+        "order": 0,
+        "width": "6",
+        "height": "2",
+        "format": "<div style=\"max-height:400px; overflow-y:auto;\">\n    <div ng-repeat=\"item in msg.payload track by $index\"\n        style=\"font-size:11px; padding:2px 0; border-bottom:1px solid #222; color:#ccc;\">\n        <span style=\"color:#555;\">{{item.hora}}</span>\n        {{item.tipo}} {{item.texto}}\n    </div>\n    <div ng-if=\"!msg.payload.length\" style=\"font-size:11px; color:#555;\">Sin incidencias</div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 840,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f27bdde6329b6051",
+        "type": "function",
+        "z": "9a45728dd719fd12",
+        "name": "Registro de eventos",
+        "func": "msg.payload = global.get(\"log_incidencias\") || [];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 540,
+        "wires": [
+            [
+                "ebc86f57cbce590b"
+            ]
+        ]
+    },
+    {
+        "id": "6a896d4904fe83a5",
+        "type": "function",
+        "z": "9a45728dd719fd12",
+        "name": "Linea Setpoint",
+        "func": "let sp = global.get(\"SP\");\nlet sim = global.get(\"modo_sim\");\n\nif (sim) {\n    sp = global.get(\"SP_sim\");\n}\n\nif (sp !== undefined) {\n    msg.payload = sp;\n    msg.topic = \"Setpoint\";\n    return msg;\n}\n\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 260,
+        "wires": [
+            [
+                "64980110c417f6ca"
+            ]
+        ]
+    },
+    {
+        "id": "4567b3d8abc8cad1",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6",
+            "node-red-contrib-modbus": "5.45.2",
+            "node-red-contrib-telegrambot": "17.0.6",
+            "@flowfuse/node-red-dashboard": "1.30.2",
+            "node-red-contrib-ui-led": "0.4.11"
+        }
+    }
+]

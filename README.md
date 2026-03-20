@@ -1,16 +1,16 @@
-# Asistente Digital No-Code con IA para Supervisión Industrial
+# No-Code Digital Assistant with AI for Industrial Supervision
 
-Trabajo Fin de Máster — Máster en Industria 4.0  
+Master's Thesis — Master's Degree in Industry 4.0  
 Universidad Politécnica de Cartagena (UPCT) · 2026  
-Autor: **Antonio Joaquín Piñera Marín**
+Author: **Antonio Joaquín Piñera Marín**
 
 ---
 
-## Descripción
+## Description
 
-Sistema de monitorización, supervisión y gestión inteligente de un proceso industrial simulado (control de nivel de un depósito), construido con herramientas de código abierto y desplegado mediante **Docker Compose**.
+A monitoring, supervision and intelligent management system for a simualated industrial process (tank level control), built entirely with open-source tools and deployed using **Docker Compose**.
 
-El sistema adquiere datos en tiempo real vía **Modbus TCP** desde un gemelo digital en **Factory IO**, ejecuta control automático con histéresis, detecta emergencias, supervisa fallos de comunicación mediante un *watchdog*, genera gráficas bajo demanda y produce informes técnicos automáticos mediante **IA local**. La interacción con el operador se realiza a través de dos bots de **Telegram** con roles diferenciados.
+The system acquires real-time data via **Modbus TCP** from a digital twin in **Factory IO**, executes automatic control with hyteresis, detects emergencies, monitors communication failures through a *watchdog*, generates on-demand charts and produces automatic technical reports using **local AI**. Interaction with the operator is handled through two **Telegram** bots with differentiated roles.
 
 ---
 

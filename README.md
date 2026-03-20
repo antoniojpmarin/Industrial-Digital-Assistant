@@ -30,7 +30,7 @@ The system acquires real-time data via **Modbus TCP** from a digital twin in **F
 
 ---
 
-## Arcuitecture
+## Architecture
 
 ```
 Factory IO  -->  Node-RED  -->  n8n  -->  PostgreSQL

@@ -14,70 +14,70 @@ The system acquires real-time data via **Modbus TCP** from a digital twin in **F
 
 ---
 
-## Stack tecnológico
+## Tech Stack
 
-| Tecnología         | Versión     | Función                                                        |
-|--------------------|-------------|----------------------------------------------------------------|
-| **Node-RED**       | 3.x         | Adquisición Modbus, control, watchdog, dashboard, bot Telegram |
-| **n8n**            | 2.4.7       | Orquestación, alarmas, gráficas, informes IA                   |
-| **PostgreSQL**     | 15          | Persistencia de telemetría, alarmas y fallos de comunicación   |
-| **Flask** + Matplotlib | Python 3.11 | Microservicio de generación de gráficas                   |
-| **Ollama** (llama3.2) | latest   | Generación de informes técnicos con IA local                   |
-| **Telegram Bots API** | —        | Interfaz conversacional con el operador                        |
-| **Factory IO**     | —           | Gemelo digital del proceso industrial                          |
-| **Docker Compose** | —           | Despliegue y orquestación de todos los servicios               |
-| **Modbus TCP**     | —           | Protocolo de comunicación con la simulación                    |
+| Technology             | Version     | Function                                                       |
+|------------------------|-------------|----------------------------------------------------------------|
+| **Node-RED**           | 3.x         | Modbus acquisition, control, watchdog, dashboard, Telegram bot |
+| **n8n**                | 2.4.7       | Orchestration, alarms, charts, AI reports                   |
+| **PostgreSQL**         | 15          | Persistence of telemetry, alarms and communication failures   |
+| **Flask** + Matplotlib | Python 3.11 | Charts generation microservice                    |
+| **Ollama** (llama3.2)  | latest      | Local AI technical report generation              |
+| **Telegram Bots API**  | —           | Conversational interface with the operator                      |
+| **Factory IO**         | —           | Industrial process digital twin                        |
+| **Docker Compose**     | —           | Deployment and orchestration of all services               |
+| **Modbus TCP**         | —           | Communication protocol with the simulation                    |
 
 ---
 
-## Arquitectura
+## Arcuitecture
 
 ```
 Factory IO  -->  Node-RED  -->  n8n  -->  PostgreSQL
-(Modbus TCP)    (control)   (webhooks)    Flask (gráficas)
-                                          Ollama (informes IA)
+(Modbus TCP)    (control)   (webhooks)    Flask (charts)
+                                          Ollama ( AI reports)
                                           Telegram "Alertas Tanque"
 
-Operador  <-->  Telegram "Control Tanque"
+Operator  <-->  Telegram "Control Tanque"
 ```
 
 ---
 
-## Flujos de Node-RED
+## Node-RED Flows
 
-| Flujo                             | Función                                                        |
+| Flow                             | Role                                                        |
 |-----------------------------------|----------------------------------------------------------------|
-| Adquisición Datos y Emerg         | Lectura Modbus, control proporcional, detección de emergencias |
-| Enviar datos n8n                  | Envío periódico de telemetría cada 3 s a PostgreSQL vía n8n    |
-| Factory IO Running?               | *Watchdog* de comunicación (*polling* cada 200 ms)             |
-| Interfaz Telegram                 | Árbol de comandos del bot "Control Tanque"                     |
-| Inicialización variables globales | Estado inicial del sistema al arrancar                         |
+| Adquisición Datos y Emerg         | Modbus reading, proporcional control, emergnecy detection      |
+| Enviar datos n8n                  | Periodic telemetry every 3 s to POstgreSQL via n8n   |
+| Factory IO Running?               | Communication *Watchdog* (*polling* every 200 ms)               |
+| Interfaz Telegram                 | Command tree for the "Control Tanque" bot                        |
+| Inicialización variables globales | System initial state                      |
 
-## Workflows de n8n
+## n8n Workflows
 
-| Workflow                | Función                                                                         |
+| Workflow                | Role                                                                         |
 |-------------------------|---------------------------------------------------------------------------------|
-| My workflow (principal) | *Webhooks* /datos, /alarma, /fallo_com, /grafica — máquina de estados de alarmas |
-| Informes IA             | Pipeline IA: PostgreSQL → prompt → Ollama → correo SMTP con gráfica adjunta     |
+| My workflow (main one)       | *Webhooks* /datos, /alarma, /fallo_com, /grafica — alarm state machine |
+| Informes IA             | AI Pipeline: PostgreSQL → prompt → Ollama → SMTP email with attached chart     |
 
 ---
 
-## Comandos del bot (Control Tanque)
+## Bot commands (Control Tanque)
 
 | Comando        | Función                                                    |
 |----------------|------------------------------------------------------------|
-| `/on`          | Activa el control automático                               |
-| `/off`         | Detiene el control y borra el *setpoint*                   |
-| `/sp:XX`       | Fija el *setpoint* (rango válido: 30–70 %)                 |
-| `/nivel`       | Consulta el nivel actual del tanque                        |
-| `/estado`      | Resumen completo: nivel, SP, modo, emergencias             |
-| `/grafica`     | Gráfica de los últimos 15 minutos                          |
-| `/grafica:NN`  | Gráfica de los últimos NN minutos (1–60)                   |
-| `/informe`     | Genera informe IA y lo envía por correo                    |
-| `/sim:on\|off` | Activa o desactiva el *modo simulación* (SP aleatorio 20 s)|
-| `/help`        | Panel de ayuda completo                                    |
+| `/on`          | Activates automatic control                               |
+| `/off`         | Stops control and clears the *setpoint*                  |
+| `/sp:XX`       | Sets the *setpoint* (valid range: 30–70 %)                 |
+| `/nivel`       | Queries the current tank level                        |
+| `/estado`      | Full summary: level, SP, mode, emergencies             |
+| `/grafica`     | Chart of the last 15 minutes                        |
+| `/grafica:NN`  | Chart of the last NN minutes (1-60)                     |
+| `/informe`     | Generates AI report and sends it by email                    |
+| `/sim:on\|off` | Activates o deactivates  *simulation mode* (random SP every 20 s)|
+| `/help`        | Full help panel                                    |
 
-El bot **"Alertas Tanque"** notifica automáticamente emergencias, recuperaciones y fallos de comunicación sin intervención del operador.
+The **"ALertas Tanque"** bot automatically notifies emergencies, recoveries and communication failures without operator intervention.
 
 ---
 
@@ -91,68 +91,68 @@ El bot **"Alertas Tanque"** notifica automáticamente emergencias, recuperacione
 
 ---
 
-## Cómo ejecutar
+## How to run
 
-**Requisitos:** Docker Desktop, Factory IO con la escena *"Level Control"* en modo Modbus TCP, dos bots de Telegram y una cuenta Gmail con contraseña de aplicación.
+**Requirements:** Docker Desktop, Factory IO with the *"Level Control"* scene in Modbus TCP server mode, two Telegram btos and a Gmail account with and app password
 
 ```bash
-git clone https://github.com/antoniojpmarin/Codigos-TFM-Antonio.git
-cd Codigos-TFM-Antonio
+git clone https://github.com/antoniojpmarin/Industrial-Digital-Assistant.git
+cd Industrial-Digital-Assistant
 docker compose up -d
 ```
 
-Servicios disponibles tras el arranque:
+Available Services after startup: 
 
-| Servicio               | URL                      |
+| Service               | URL                      |
 |------------------------|--------------------------|
 | Node-RED (editor)      | http://localhost:1880    |
 | Node-RED (dashboard)   | http://localhost:1880/ui |
 | n8n                    | http://localhost:5678    |
 | Ollama                 | http://localhost:11434   |
 
-Descargar el modelo de IA:
+Download the AI model:
 
 ```bash
 docker exec -it ollama ollama pull llama3.2:latest
 ```
 
-**Importar los flujos:**
+**Import the flows:**
 
 - Node-RED: *Menu > Import >* `flows.json`
 - n8n: *Settings > Import workflow >* `My workflow (4).json` e `Informes IA (4).json`
 
-Configurar en n8n las credenciales de **PostgreSQL**, los tokens de ambos bots de **Telegram**, la URL de **Ollama** (`http://ollama:11434`) y el **SMTP** de Gmail (`smtp.gmail.com`, puerto 587).
+Configure in n8n the credentials for **PostgreSQL**, tokens for both **Telegram** bots, the **Ollama** URL (`http://ollama:11434`) and the **SMTP** settings for Gmail (`smtp.gmail.com`, port 587).
 
-Actualizar la IP de **Factory IO** en el nodo *Modbus Client* de Node-RED (por defecto `192.168.1.38`).
+Update the **Factory IO** IP address in the *Modbus Client* node in Node-RED ( `192.168.1.38`).
 
 ---
 
-## Modelo de datos
+## Data model
 
-| Tabla               | Contenido                                                               |
+| Table               | Content                                                               |
 |---------------------|-------------------------------------------------------------------------|
-| `nivel_tanque`      | Telemetría continua cada 3 s: nivel, estado, *setpoint*, caudales, alarma |
-| `historial_alarmas` | Transiciones de alarma sin duplicados                                   |
-| `fallos_comunicacion` | Eventos de caída y recuperación del enlace con Factory IO             |
+| `nivel_tanque`      | Continious telemrey every 3 s: level, state, *setpoint*, flow rates, alarm |
+| `historial_alarmas` | Alarm state transitions without duplicates                                |
+| `fallos_comunicacion` | Connection loss and recovery events with Factory IO          |
 
 ---
 
-## Ciclos temporales
+## Timing cycles
 
-| Ciclo                          | Periodo | Responsable            |
+| Cycle                          | Period | Reponsible            |
 |--------------------------------|---------|------------------------|
-| Lectura del nivel (Modbus)     | 1 s     | Node-RED               |
-| Lectura de caudales (Modbus)   | 100 ms  | Node-RED               |
-| Supervisión Factory IO Running | 200 ms  | Node-RED               |
-| Envío de telemetría a n8n      | 3 s     | Node-RED               |
-| Actualización SP simulado      | 20 s    | Node-RED               |
-| *Watchdog* timeout Modbus      | 5 s     | Node-RED               |
-| Informe IA automático          | 30 min  | n8n (Schedule Trigger) |
+| Level reading (Modbus)         | 1 s     | Node-RED               |
+| Flow rate reading (Modbus)     | 100 ms  | Node-RED               |
+| Factory IO Running supervision | 200 ms  | Node-RED               |
+| Telemetry send to n8n          | 3 s     | Node-RED               |
+| Simulated SP update            | 20 s    | Node-RED               |
+| Modbus *Watchdog* timeout      | 5 s     | Node-RED               |
+| Automatic Ai report            | 30 min  | n8n (Schedule Trigger) |
 
 ---
 
-## Licencia
+## License
 
-Proyecto académico. Las herramientas empleadas mantienen sus licencias originales: Node-RED (Apache 2.0), n8n (*fair-code*), PostgreSQL (PostgreSQL License), Flask (BSD), Ollama (MIT).
+Academic project. All tools retain their original licenses: Node-RED (Apache 2.0), n8n (*fair-code*), PostgreSQL (PostgreSQL License), Flask (BSD), Ollama (MIT).
 
-Desarrollado como TFM del Máster en Industria 4.0 — UPCT, 2026
+Developed as Master's Thesis in Industry 4.0 — UPCT, 2026

@@ -83,11 +83,13 @@ The **"ALertas Tanque"** bot automatically notifies emergencies, recoveries and 
 
 ## Demo
 
-[Ver vídeo completo en YouTube](URL_DEL_VIDEO)
+[Ver vídeo completo en YouTube](URL_DEL_VIDEO). Ask for access
 
-![System response in alert for High Level](captures/emergency_high_level.mp4)
-![Alert in Telegram](captures/telegram_alert.png)
-![AI report sent to email](captures/email_report.png)
+[Youtube video: System response to alert for High Level](https://youtu.be/Gh17SfdOYkg). Ask for access.
+
+[Alert in Telegram](captures/telegram_alert.png)
+
+[AI report sent to email](captures/email_report.png)
 
 ---
 

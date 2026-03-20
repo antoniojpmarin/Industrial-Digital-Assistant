@@ -93,7 +93,11 @@ The **"ALertas Tanque"** bot automatically notifies emergencies, recoveries and 
 
 ## How to run
 
-**Requirements:** Docker Desktop, Factory IO with the *"Level Control"* scene in Modbus TCP server mode, two Telegram btos and a Gmail account with and app password
+**Requirements:** 
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
+- Factory IO with the *"Level Control"* scene in Modbus TCP server mode
+- Two Telegram bots created with [@BotFather](https://t.me/botfather)
+- Gmail account with and app password
 
 ```bash
 git clone https://github.com/antoniojpmarin/Industrial-Digital-Assistant.git
@@ -124,6 +128,41 @@ docker exec -it ollama ollama pull llama3.2:latest
 Configure in n8n the credentials for **PostgreSQL**, tokens for both **Telegram** bots, the **Ollama** URL (`http://ollama:11434`) and the **SMTP** settings for Gmail (`smtp.gmail.com`, port 587).
 
 Update the **Factory IO** IP address in the *Modbus Client* node in Node-RED ( `192.168.1.38`).
+
+---
+
+## SQL Queries in Docker Desktop
+
+To access **PostgreSQL** directly from the terminal and run SQL queries:
+
+```bash
+docker exec -it <container_name> psql -U <user> -d <database>
+```
+
+With the default configuration of this project:
+
+```bash
+docker exec -it postgres psql -U n8n -d n8n
+```
+
+Some query examples once inside:
+
+```sql
+-- Last 10 tank readings
+SELECT * FROM nivel_tanque ORDER BY fecha DESC LIMIT 10;
+
+-- Alarm history
+SELECT * FROM historial_alarmas ORDER BY fecha DESC;
+
+-- Logged communication failures
+SELECT * FROM fallos_comunicacion ORDER BY fecha DESC;
+```
+
+To exit the psql environment:
+
+```bash
+\q
+```
 
 ---
 

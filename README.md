@@ -192,6 +192,18 @@ To exit the psql environment:
 
 ---
 
+## Repository Structure
+
+```
+├── captures/           # Screenshots and demo images (Telegram alerts, email reports)
+├── docker-compose/     # docker-compose.yml and service configuration files
+├── n8n/                # Exported n8n workflows (JSON)
+├── node-red/           # Node-RED exported flows (flows.json)
+└── README.md
+```
+
+---
+
 ## License
 
 Academic project. All tools retain their original licenses: Node-RED (Apache 2.0), n8n (*fair-code*), PostgreSQL (PostgreSQL License), Flask (BSD), Ollama (MIT).

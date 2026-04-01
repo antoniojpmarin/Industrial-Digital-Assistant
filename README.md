@@ -8,7 +8,7 @@ Author: **Antonio Joaquín Piñera Marín**
 
 ## Description
 
-A monitoring, supervision and intelligent management system for a simualated industrial process (tank level control), built entirely with open-source tools and deployed using **Docker Compose**.
+A monitoring, supervision and intelligent management system for a simulated industrial process (tank level control), built entirely with open-source tools and deployed using **Docker Compose**.
 
 The system acquires real-time data via **Modbus TCP** from a digital twin in **Factory IO**, executes automatic control with hyteresis, detects emergencies, monitors communication failures through a *watchdog*, generates on-demand charts and produces automatic technical reports using **local AI**. Interaction with the operator is handled through two **Telegram** bots with differentiated roles.
 
@@ -97,7 +97,7 @@ The **"ALertas Tanque"** bot automatically notifies emergencies, recoveries and 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
 - Factory IO with the *"Level Control"* scene in Modbus TCP server mode
 - Two Telegram bots created with [@BotFather](https://t.me/botfather)
-- Gmail account with and app password
+- Gmail account with an [APP Password](https://myaccount.google.com/apppasswords)
 
 ```bash
 git clone https://github.com/antoniojpmarin/Industrial-Digital-Assistant.git

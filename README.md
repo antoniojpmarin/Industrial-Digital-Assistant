@@ -32,14 +32,7 @@ The system acquires real-time data via **Modbus TCP** from a digital twin in **F
 
 ## Architecture
 
-```
-Factory IO  -->  Node-RED  -->  n8n  -->  PostgreSQL
-(Modbus TCP)    (control)   (webhooks)    Flask (charts)
-                                          Ollama ( AI reports)
-                                          Telegram "Alertas Tanque"
-
-Operator  <-->  Telegram "Control Tanque"
-```
+[System Architecture](https://github.com/antoniojpmarin/Industrial-Digital-Assistant/blob/main/captures/tfm_architecture.png)
 
 ---
 
